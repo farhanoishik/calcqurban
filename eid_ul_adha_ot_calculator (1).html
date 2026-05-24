@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NEXT Ventures · Eid ul Adha OT Calculator 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700;800;900&family=Barlow+Condensed:wght@600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --red: #E8002D; --red-dark: #B5001F; --red-glow: rgba(232,0,45,.18);
+    --dark: #111111; --dark2: #1A1A1A; --dark3: #222222; --dark4: #2A2A2A;
+    --white: #FFFFFF; --grey: #AAAAAA; --grey2: #666666; --grey3: #333333;
+    --border: #2E2E2E; --border2: #3A3A3A;
+    --eid-red: #E8002D; --govt-blue: #2563EB; --green: #16A34A;
+    --card-bg: #1A1A1A;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { background:var(--dark); font-family:'Barlow',sans-serif; color:var(--white); min-height:100vh; }
+
+  /* ── BANNER ── */
+  .banner {
+    background:var(--dark2);
+    border-bottom:3px solid var(--red);
+    padding:0; position:relative; overflow:hidden;
+  }
+  /* diagonal red slash accent */
+  .banner::after {
+    content:''; position:absolute;
+    top:0; right:120px; width:4px; height:100%;
+    background:var(--red);
+    transform:skewX(-12deg);
+    box-shadow: 12px 0 0 var(--red-dark);
+  }
+  .banner-inner {
+    max-width:780px; margin:0 auto;
+    padding:22px 20px 20px;
+    display:flex; align-items:center; gap:18px;
+    position:relative; z-index:1;
+  }
+  /* NEXT Ventures logo recreation in SVG */
+  .brand-logo { flex-shrink:0; }
+  .brand-text { flex:1; }
+  .brand-top {
+    font-family:'Barlow Condensed',sans-serif;
+    font-size:clamp(26px,5vw,42px);
+    font-weight:900;
+    letter-spacing:-1px;
+    line-height:1;
+    color:var(--white);
+    text-transform:uppercase;
+  }
+  .brand-top .nxt { color:var(--white); }
+  .brand-top .arrow-letter {
+    display:inline-block; position:relative;
+    color:transparent;
+    background: linear-gradient(135deg, var(--white) 45%, transparent 45%),
+                linear-gradient(225deg, var(--white) 45%, transparent 45%);
+    background-size:50% 100%;
+    background-repeat:no-repeat;
+    background-position:left center, right center;
+  }
+  /* The E with red play arrow overlay */
+  .e-wrap { display:inline-block; position:relative; }
+  .e-wrap .e-letter { color:var(--white); }
+  .e-wrap .play-arrow {
+    position:absolute;
+    left:50%; top:50%;
+    transform:translate(-44%,-50%);
+    width:0; height:0;
+    border-top:7px solid transparent;
+    border-bottom:7px solid transparent;
+    border-left:11px solid var(--red);
+  }
+  .brand-sub {
+    font-family:'Barlow Condensed',sans-serif;
+    font-size:clamp(11px,2vw,14px);
+    font-weight:600;
+    letter-spacing:6px;
+    color:var(--grey);
+    text-transform:uppercase;
+    margin-top:3px;
+  }
+  .banner-tagline {
+    font-size:12px; font-weight:500; color:var(--grey2);
+    letter-spacing:1.5px; text-transform:uppercase;
+    border-left:2px solid var(--red);
+    padding-left:10px;
+    line-height:1.4;
+  }
+
+  /* ── LAYOUT ── */
+  .container { max-width:780px; margin:0 auto; padding:24px 16px 60px; }
+
+  .step-label {
+    font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:3px;
+    color:var(--red); margin-bottom:6px; display:flex; align-items:center; gap:6px;
+  }
+  .step-label::before { content:''; display:inline-block; width:16px; height:2px; background:var(--red); }
+
+  .card {
+    background:var(--card-bg); border:1px solid var(--border);
+    border-radius:8px; padding:20px 20px; margin-bottom:14px;
+    box-shadow:0 4px 20px rgba(0,0,0,.4);
+    position:relative; overflow:hidden;
+  }
+  /* red top-edge accent on cards */
+  .card::before {
+    content:''; position:absolute; top:0; left:0; right:0;
+    height:2px; background:linear-gradient(90deg,var(--red),transparent 60%);
+  }
+  .card h2 {
+    font-family:'Barlow Condensed',sans-serif;
+    font-size:16px; font-weight:700; text-transform:uppercase;
+    letter-spacing:1px; color:var(--white);
+    margin-bottom:14px; display:flex; align-items:center; gap:10px;
+  }
+  .card h2 .num {
+    width:24px; height:24px; background:var(--red); color:var(--white);
+    border-radius:4px; font-size:13px; display:flex; align-items:center; justify-content:center;
+    font-family:'Barlow',sans-serif; font-weight:800; flex-shrink:0;
+  }
+
+  /* ── TYPE BUTTONS ── */
+  .type-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; }
+  .type-btn {
+    border:1.5px solid var(--border2); border-radius:8px; padding:14px 8px;
+    background:var(--dark3); cursor:pointer; text-align:center; transition:all .18s;
+  }
+  .type-btn:hover { border-color:var(--red); background:var(--dark4); }
+  .type-btn.active { border-color:var(--red); background:rgba(232,0,45,.08); box-shadow:0 0 0 1px var(--red); }
+  .type-btn .type-icon { font-size:20px; display:block; margin-bottom:4px; }
+  .type-btn .type-name { font-size:14px; font-weight:700; color:var(--white); display:block; font-family:'Barlow Condensed',sans-serif; letter-spacing:.5px; }
+  .type-btn .type-detail { font-size:11px; color:var(--grey2); }
+
+  /* ── INPUTS ── */
+  select, input[type="number"] {
+    width:100%; padding:12px 14px; border:1.5px solid var(--border2); border-radius:6px;
+    font-family:'Barlow',sans-serif; font-size:15px; background:var(--dark3); color:var(--white);
+    outline:none; transition:border-color .18s; appearance:none; -webkit-appearance:none;
+  }
+  select { background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23AAAAAA' d='M6 8L1 3h10z'/%3E%3C/svg%3E"); background-repeat:no-repeat; background-position:right 14px center; padding-right:36px; background-color:var(--dark3); }
+  select option { background:var(--dark3); color:var(--white); }
+  select:focus, input[type="number"]:focus { border-color:var(--red); box-shadow:0 0 0 3px var(--red-glow); }
+  input[type="number"]::placeholder { color:var(--grey2); }
+
+  .salary-wrap { position:relative; }
+  .salary-prefix { position:absolute; left:14px; top:50%; transform:translateY(-50%); color:var(--grey); font-weight:700; pointer-events:none; }
+  .salary-wrap input { padding-left:28px; }
+  .salary-hint { margin-top:8px; font-size:12px; color:var(--grey); background:var(--dark3); border:1px solid var(--border); border-radius:6px; padding:8px 12px; display:none; }
+  .salary-hint.show { display:block; }
+  .salary-hint strong { color:var(--red); }
+
+  /* ── CALCULATE BUTTON ── */
+  .calc-btn {
+    width:100%; padding:14px 20px;
+    background:var(--red);
+    color:var(--white); font-family:'Barlow Condensed',sans-serif; font-size:18px; font-weight:800;
+    border:none; border-radius:8px; cursor:pointer; letter-spacing:2px; text-transform:uppercase;
+    transition:all .2s; margin-bottom:22px;
+    display:flex; align-items:center; justify-content:center; gap:10px;
+  }
+  .calc-btn::after { content:'▶'; font-size:12px; }
+  .calc-btn:hover { background:var(--red-dark); transform:translateY(-1px); box-shadow:0 6px 24px var(--red-glow); }
+  .calc-btn:disabled { opacity:.35; cursor:not-allowed; transform:none; box-shadow:none; }
+
+  /* ── RESULTS ── */
+  #results { display:none; }
+  #results.show { display:block; }
+
+  .result-header { text-align:center; margin-bottom:18px; padding-bottom:18px; border-bottom:1px solid var(--border); }
+  .result-header .agent-name {
+    font-family:'Barlow Condensed',sans-serif; font-size:28px; font-weight:800;
+    text-transform:uppercase; letter-spacing:1px; color:var(--white);
+  }
+  .result-header .agent-meta { font-size:13px; color:var(--grey); margin-top:4px; }
+
+  .summary-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:18px; }
+  .summary-box { border-radius:8px; padding:16px; text-align:center; border:1px solid var(--border); }
+  .summary-box.total {
+    background:var(--red); color:white; grid-column:1/-1;
+    border-color:var(--red-dark);
+  }
+  .summary-box.eid { background:var(--dark3); border-left:3px solid var(--red); }
+  .summary-box.govt { background:var(--dark3); border-left:3px solid var(--govt-blue); }
+  .summary-box .box-label { font-size:10px; text-transform:uppercase; letter-spacing:2px; color:var(--grey); margin-bottom:4px; font-weight:600; }
+  .summary-box.total .box-label { color:rgba(255,255,255,.75); }
+  .summary-box .box-amount { font-family:'Barlow Condensed',sans-serif; font-size:30px; font-weight:800; color:var(--white); }
+  .summary-box .box-sub { font-size:12px; color:var(--grey); margin-top:2px; }
+  .summary-box.total .box-sub { color:rgba(255,255,255,.7); }
+
+  .rate-info {
+    background:var(--dark3); border:1px solid var(--border); border-radius:6px;
+    padding:10px 14px; margin-bottom:18px; font-size:13px; color:var(--grey); text-align:center;
+  }
+  .rate-info strong { color:var(--red); }
+
+  .section-title {
+    font-family:'Barlow Condensed',sans-serif; font-size:15px; font-weight:700;
+    text-transform:uppercase; letter-spacing:1px;
+    color:var(--white); margin-bottom:12px; padding-bottom:10px;
+    border-bottom:1px solid var(--border);
+    display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:8px;
+  }
+
+  /* ── GCAL BUTTONS ── */
+  .gcal-all-btn {
+    display:inline-flex; align-items:center; gap:6px;
+    padding:6px 13px; background:#4285F4; color:white;
+    border:none; border-radius:20px; font-size:11px; font-weight:700;
+    cursor:pointer; text-decoration:none; transition:all .18s; font-family:'Barlow',sans-serif;
+    white-space:nowrap; letter-spacing:.3px;
+  }
+  .gcal-all-btn:hover { background:#2c6fdb; transform:translateY(-1px); }
+
+  /* ── DAY CARDS ── */
+  .day-cards { display:flex; flex-direction:column; gap:10px; }
+  .day-card { border:1px solid var(--border); border-radius:8px; overflow:hidden; background:var(--dark3); }
+  .day-card-header {
+    display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:8px;
+    padding:11px 14px;
+  }
+  .day-card-header.eid-day { background:rgba(232,0,45,.1); border-bottom:1px solid rgba(232,0,45,.2); }
+  .day-card-header.govt-day { background:rgba(37,99,235,.08); border-bottom:1px solid rgba(37,99,235,.2); }
+  .day-left { display:flex; align-items:center; gap:10px; }
+  .day-date-label { font-weight:700; font-size:14px; color:var(--white); font-family:'Barlow Condensed',sans-serif; text-transform:uppercase; letter-spacing:.5px; }
+  .day-badge { padding:3px 9px; border-radius:4px; font-size:10px; font-weight:700; letter-spacing:.5px; text-transform:uppercase; }
+  .day-badge.eid { background:var(--red); color:white; }
+  .day-badge.govt { background:var(--govt-blue); color:white; }
+  .day-right { display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
+  .day-pay { font-family:'Barlow Condensed',sans-serif; font-size:20px; font-weight:800; color:var(--red); }
+  .gcal-btn {
+    display:inline-flex; align-items:center; gap:5px;
+    padding:4px 10px; background:#4285F4; color:white;
+    border:none; border-radius:14px; font-size:11px; font-weight:700;
+    cursor:pointer; text-decoration:none; transition:all .18s; font-family:'Barlow',sans-serif;
+    white-space:nowrap;
+  }
+  .gcal-btn:hover { background:#2c6fdb; }
+
+  .day-details { padding:10px 14px 12px; display:flex; gap:20px; flex-wrap:wrap; background:var(--dark2); }
+  .detail-item { font-size:12px; color:var(--grey); }
+  .detail-item strong { color:var(--white); }
+  .time-pill {
+    display:inline-flex; align-items:center; gap:5px;
+    background:var(--dark4); border:1px solid var(--border2);
+    border-radius:4px; padding:3px 10px;
+    font-size:12px; font-weight:700; color:var(--white);
+    font-family:'Barlow Condensed',sans-serif; letter-spacing:.3px;
+  }
+  .time-pill.overnight { border-color:rgba(139,92,246,.5); color:#C4B5FD; }
+
+  .divider { border:none; border-top:1px solid var(--border); margin:18px 0; }
+
+  .total-summary {
+    background:var(--dark3); border:1px solid var(--border2); border-left:3px solid var(--red);
+    border-radius:8px; padding:14px 16px;
+    display:flex; justify-content:space-between; align-items:center; margin-top:4px;
+  }
+  .total-summary .total-label { font-weight:700; color:var(--grey); font-size:13px; text-transform:uppercase; letter-spacing:1px; font-family:'Barlow Condensed',sans-serif; }
+  .total-summary .total-val { font-family:'Barlow Condensed',sans-serif; font-size:26px; color:var(--white); font-weight:800; }
+
+  .copy-btn {
+    width:100%; margin-top:14px; padding:11px; border:1.5px solid var(--border2);
+    background:var(--dark3); border-radius:8px; font-family:'Barlow',sans-serif; font-size:13px; font-weight:600;
+    color:var(--grey); cursor:pointer; transition:all .18s; display:flex; align-items:center; justify-content:center; gap:8px;
+    text-transform:uppercase; letter-spacing:.5px;
+  }
+  .copy-btn:hover { border-color:var(--red); color:var(--white); }
+  .copy-btn.copied { border-color:var(--green); color:var(--green); }
+
+  @media(max-width:480px) {
+    .type-grid { grid-template-columns:1fr; }
+    .summary-grid { grid-template-columns:1fr; }
+    .summary-box.total { grid-column:1; }
+    .day-right { justify-content:space-between; width:100%; }
+    .banner-tagline { display:none; }
+  }
+</style>
+</head>
+<body>
+<div class="banner">
+  <span class="banner-ornament">✦ ✦ ✦</span>
+  <h1>Eid ul Adha <span>OT Calculator</span></h1>
+  <div class="banner-sub">Roster Period · May 25 – 31, 2026</div>
+</div>
+
+<div class="container">
+  <div class="step-label">Step 1</div>
+  <div class="card">
+    <h2><span class="num">1</span> Select Agent Type</h2>
+    <div class="type-grid">
+      <button class="type-btn" onclick="selectType('FTE',this)">
+        <span class="type-icon">🏢</span>
+        <span class="type-name">FTE</span>
+        <span class="type-detail">Full-Time · 198 std hrs</span>
+      </button>
+      <button class="type-btn" onclick="selectType('VE',this)">
+        <span class="type-icon">💬</span>
+        <span class="type-name">VE</span>
+        <span class="type-detail">Virtual Exec · 110 std hrs</span>
+      </button>
+      <button class="type-btn" onclick="selectType('VE PSTF',this)">
+        <span class="type-icon">⚙️</span>
+        <span class="type-name">VE PSTF</span>
+        <span class="type-detail">PSTF · 176 std hrs</span>
+      </button>
+    </div>
+  </div>
+
+  <div class="step-label">Step 2</div>
+  <div class="card">
+    <h2><span class="num">2</span> Select Your Name</h2>
+    <select id="agentSelect" onchange="checkReady()">
+      <option value="">— Select agent type first —</option>
+    </select>
+  </div>
+
+  <div class="step-label">Step 3</div>
+  <div class="card">
+    <h2><span class="num">3</span> Enter Basic Salary</h2>
+    <div class="salary-wrap">
+      <span class="salary-prefix">৳</span>
+      <input type="number" id="salaryInput" placeholder="e.g. 15000" min="0" oninput="onSalaryChange()"/>
+    </div>
+    <div class="salary-hint" id="salaryHint"></div>
+  </div>
+
+  <button class="calc-btn" id="calcBtn" onclick="calculate()" disabled>Calculate My OT Pay ✦</button>
+
+  <div id="results">
+    <div class="card">
+      <div class="result-header">
+        <div class="agent-name" id="resName"></div>
+        <div class="agent-meta" id="resMeta"></div>
+      </div>
+      <div class="rate-info" id="rateInfo"></div>
+      <div class="summary-grid">
+        <div class="summary-box eid">
+          <div class="box-label">🌙 Eid Day OT (4×)</div>
+          <div class="box-amount" id="resEidTotal">৳0</div>
+          <div class="box-sub" id="resEidHours"></div>
+        </div>
+        <div class="summary-box govt">
+          <div class="box-label">🏛 Govt Holiday OT (2.5×)</div>
+          <div class="box-amount" id="resGovtTotal">৳0</div>
+          <div class="box-sub" id="resGovtHours"></div>
+        </div>
+        <div class="summary-box total">
+          <div class="box-label">Total OT Pay</div>
+          <div class="box-amount" id="resGrandTotal">৳0</div>
+          <div class="box-sub" id="resTotalHours"></div>
+        </div>
+      </div>
+      <hr class="divider">
+      <div class="section-title">
+        <span>📅 Day-by-Day Breakdown</span>
+        <button class="gcal-all-btn" id="gcalAllBtn" onclick="addAllToCalendar()">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="white"><path d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V10h14v10zm0-12H5V6h14v2z"/></svg>
+          Add All Shifts to Google Calendar
+        </button>
+      </div>
+      <div class="day-cards" id="dayCards"></div>
+      <div class="total-summary" style="margin-top:16px">
+        <span class="total-label">Total OT Earnings</span>
+        <span class="total-val" id="totalVal"></span>
+      </div>
+      <button class="copy-btn" id="copyBtn" onclick="copySummary()">
+        📋 Copy Pay Summary to Clipboard
+      </button>
+    </div>
+  </div>
+</div>
+
+<script>
+const EID_DATES  = ['2026-05-27','2026-05-28','2026-05-29'];
+const GOVT_DATES = ['2026-05-25','2026-05-26','2026-05-30','2026-05-31'];
+const DATE_LABELS = {
+  '2026-05-25':'Mon, 25 May','2026-05-26':'Tue, 26 May',
+  '2026-05-27':'Wed, 27 May','2026-05-28':'Thu, 28 May',
+  '2026-05-29':'Fri, 29 May','2026-05-30':'Sat, 30 May','2026-05-31':'Sun, 31 May'
+};
+const DATE_FULL = {
+  '2026-05-25':'Monday, 25 May 2026','2026-05-26':'Tuesday, 26 May 2026',
+  '2026-05-27':'Wednesday, 27 May 2026 (Eid ul Adha)','2026-05-28':'Thursday, 28 May 2026 (Eid ul Adha)',
+  '2026-05-29':'Friday, 29 May 2026 (Eid ul Adha)','2026-05-30':'Saturday, 30 May 2026','2026-05-31':'Sunday, 31 May 2026'
+};
+const STD_HOURS = {'FTE':198,'VE':110,'VE PSTF':176};
+const ALL_DATES = ['2026-05-25','2026-05-26','2026-05-27','2026-05-28','2026-05-29','2026-05-30','2026-05-31'];
+
+const AGENTS = {"Frank Jacob":{"type":"FTE","dates":{"2026-05-25":{"hours":9,"start":"07:00","end":"16:00"},"2026-05-26":{"hours":9,"start":"07:00","end":"16:00"},"2026-05-27":{"hours":9,"start":"07:00","end":"16:00"},"2026-05-28":{"hours":9,"start":"07:00","end":"16:00"},"2026-05-29":{"hours":9,"start":"07:00","end":"16:00"}}},"Shadrach Jayasinghe":{"type":"FTE","dates":{"2026-05-27":{"hours":9,"start":"07:00","end":"16:00"},"2026-05-28":{"hours":9,"start":"07:00","end":"16:00"},"2026-05-29":{"hours":9,"start":"07:00","end":"16:00"},"2026-05-30":{"hours":9,"start":"07:00","end":"16:00"}}},"Akshan Kumarasen":{"type":"FTE","dates":{"2026-05-25":{"hours":9,"start":"14:00","end":"23:00"},"2026-05-26":{"hours":9,"start":"14:00","end":"23:00"},"2026-05-27":{"hours":9,"start":"14:00","end":"23:00"},"2026-05-28":{"hours":9,"start":"14:00","end":"23:00"},"2026-05-29":{"hours":9,"start":"14:00","end":"23:00"}}},"Ravikumar Rishikumar":{"type":"FTE","dates":{"2026-05-25":{"hours":9,"start":"14:00","end":"23:00"},"2026-05-26":{"hours":9,"start":"14:00","end":"23:00"},"2026-05-27":{"hours":9,"start":"14:00","end":"23:00"},"2026-05-28":{"hours":9,"start":"14:00","end":"23:00"},"2026-05-29":{"hours":9,"start":"14:00","end":"23:00"}}},"Rayan Alahakoon":{"type":"FTE","dates":{"2026-05-25":{"hours":9,"start":"14:00","end":"23:00"},"2026-05-26":{"hours":9,"start":"14:00","end":"23:00"},"2026-05-28":{"hours":9,"start":"14:00","end":"23:00"},"2026-05-29":{"hours":9,"start":"14:00","end":"23:00"},"2026-05-30":{"hours":9,"start":"14:00","end":"23:00"}}},"Sithil Waduge":{"type":"FTE","dates":{"2026-05-25":{"hours":9,"start":"14:00","end":"23:00"},"2026-05-26":{"hours":9,"start":"14:00","end":"23:00"},"2026-05-27":{"hours":9,"start":"14:00","end":"23:00"},"2026-05-28":{"hours":9,"start":"14:00","end":"23:00"},"2026-05-29":{"hours":9,"start":"14:00","end":"23:00"}}},"Mishelle Fernando":{"type":"FTE","dates":{"2026-05-25":{"hours":9,"start":"14:00","end":"23:00"},"2026-05-26":{"hours":9,"start":"14:00","end":"23:00"},"2026-05-27":{"hours":9,"start":"14:00","end":"23:00"},"2026-05-28":{"hours":9,"start":"14:00","end":"23:00"},"2026-05-29":{"hours":9,"start":"14:00","end":"23:00"},"2026-05-30":{"hours":9,"start":"14:00","end":"23:00"}}},"Ryan Patternot":{"type":"FTE","dates":{"2026-05-25":{"hours":9,"start":"14:00","end":"23:00"},"2026-05-26":{"hours":9,"start":"14:00","end":"23:00"},"2026-05-27":{"hours":9,"start":"14:00","end":"23:00"},"2026-05-28":{"hours":9,"start":"14:00","end":"23:00"},"2026-05-29":{"hours":9,"start":"14:00","end":"23:00"}}},"Matheesha Aswella":{"type":"FTE","dates":{"2026-05-25":{"hours":9,"start":"14:00","end":"23:00"},"2026-05-26":{"hours":9,"start":"14:00","end":"23:00"},"2026-05-28":{"hours":9,"start":"14:00","end":"23:00"},"2026-05-29":{"hours":9,"start":"14:00","end":"23:00"}}},"Robiul Hassan Labib":{"type":"FTE","dates":{"2026-05-25":{"hours":10,"start":"07:00","end":"17:00"},"2026-05-26":{"hours":8,"start":"07:00","end":"15:00"},"2026-05-27":{"hours":9,"start":"07:00","end":"22:00"},"2026-05-28":{"hours":3,"start":"19:00","end":"22:00"},"2026-05-29":{"hours":10,"start":"07:00","end":"17:00"},"2026-05-30":{"hours":8,"start":"07:00","end":"15:00"},"2026-05-31":{"hours":6,"start":"07:00","end":"13:00"}}},"Hasebul Hossain Prantik":{"type":"FTE","dates":{"2026-05-25":{"hours":10,"start":"07:00","end":"17:00"},"2026-05-26":{"hours":8,"start":"07:00","end":"15:00"},"2026-05-27":{"hours":10,"start":"07:00","end":"17:00"},"2026-05-28":{"hours":8,"start":"10:00","end":"18:00"},"2026-05-29":{"hours":10,"start":"07:00","end":"17:00"},"2026-05-30":{"hours":4,"start":"07:00","end":"11:00"},"2026-05-31":{"hours":6,"start":"07:00","end":"13:00"}}},"Ashraful Zannat":{"type":"FTE","dates":{}},"Md. Zunaid":{"type":"FTE","dates":{}},"Raqibul Islam":{"type":"FTE","dates":{"2026-05-25":{"hours":11,"start":"07:00","end":"18:00"},"2026-05-26":{"hours":5,"start":"07:00","end":"12:00"},"2026-05-27":{"hours":8,"start":"07:00","end":"15:00"},"2026-05-29":{"hours":7,"start":"07:00","end":"14:00"},"2026-05-30":{"hours":7,"start":"07:00","end":"14:00"},"2026-05-31":{"hours":7,"start":"07:00","end":"14:00"}}},"Marzahan Binte Sarker":{"type":"FTE","dates":{"2026-05-25":{"hours":9,"start":"07:00","end":"16:00"},"2026-05-26":{"hours":7,"start":"07:00","end":"14:00"},"2026-05-27":{"hours":10,"start":"07:00","end":"17:00"},"2026-05-28":{"hours":10,"start":"07:00","end":"17:00"},"2026-05-29":{"hours":7,"start":"07:00","end":"14:00"},"2026-05-30":{"hours":7,"start":"07:00","end":"14:00"},"2026-05-31":{"hours":6,"start":"07:00","end":"13:00"}}},"Tahseen Tayeb Kabir":{"type":"FTE","dates":{"2026-05-25":{"hours":10,"start":"12:00","end":"22:00"},"2026-05-26":{"hours":8,"start":"12:00","end":"20:00"}}},"Raiyan Ramim":{"type":"FTE","dates":{"2026-05-25":{"hours":10,"start":"11:00","end":"21:00"},"2026-05-26":{"hours":9,"start":"12:00","end":"21:00"},"2026-05-27":{"hours":10,"start":"11:00","end":"21:00"},"2026-05-28":{"hours":10,"start":"11:00","end":"21:00"},"2026-05-29":{"hours":10,"start":"12:00","end":"22:00"},"2026-05-30":{"hours":6,"start":"15:00","end":"21:00"},"2026-05-31":{"hours":9,"start":"13:00","end":"22:00"}}},"Samik Ahmed Eshti":{"type":"FTE","dates":{"2026-05-25":{"hours":4,"start":"18:00","end":"22:00"},"2026-05-26":{"hours":4,"start":"11:00","end":"16:00"},"2026-05-27":{"hours":5,"start":"11:00","end":"22:00"},"2026-05-28":{"hours":5,"start":"11:00","end":"21:00"},"2026-05-29":{"hours":6,"start":"16:00","end":"22:00"},"2026-05-30":{"hours":5,"start":"16:00","end":"21:00"},"2026-05-31":{"hours":6,"start":"13:00","end":"19:00"}}},"Sayema Nawshin Rahman Aroni":{"type":"FTE","dates":{"2026-05-25":{"hours":5,"start":"10:00","end":"15:00"},"2026-05-26":{"hours":10,"start":"11:00","end":"21:00"},"2026-05-27":{"hours":10,"start":"10:00","end":"20:00"},"2026-05-28":{"hours":10,"start":"11:00","end":"21:00"},"2026-05-29":{"hours":10,"start":"10:00","end":"20:00"},"2026-05-30":{"hours":9,"start":"11:00","end":"20:00"},"2026-05-31":{"hours":7,"start":"13:00","end":"20:00"}}},"Md. Rawnak Islam":{"type":"FTE","dates":{"2026-05-25":{"hours":3,"start":"11:00","end":"14:00"},"2026-05-26":{"hours":3,"start":"11:00","end":"14:00"},"2026-05-27":{"hours":3,"start":"12:00","end":"15:00"},"2026-05-28":{"hours":3,"start":"12:00","end":"15:00"},"2026-05-31":{"hours":4,"start":"13:00","end":"17:00"}}},"Mahathir Pablo Uday":{"type":"FTE","dates":{"2026-05-25":{"hours":9,"start":"13:00","end":"22:00"},"2026-05-26":{"hours":10,"start":"13:00","end":"23:00"},"2026-05-27":{"hours":8,"start":"13:00","end":"21:00"},"2026-05-28":{"hours":9,"start":"13:00","end":"22:00"},"2026-05-29":{"hours":9,"start":"12:00","end":"21:00"},"2026-05-30":{"hours":4,"start":"13:00","end":"17:00"},"2026-05-31":{"hours":4,"start":"14:00","end":"18:00"}}},"Fatin Farhan Juboraj":{"type":"FTE","dates":{"2026-05-25":{"hours":9,"start":"13:00","end":"22:00"},"2026-05-26":{"hours":10,"start":"12:00","end":"22:00"},"2026-05-27":{"hours":8,"start":"14:00","end":"22:00"},"2026-05-28":{"hours":9,"start":"12:00","end":"21:00"},"2026-05-29":{"hours":10,"start":"10:00","end":"20:00"}}},"Md. Mahmudol Hasan":{"type":"FTE","dates":{"2026-05-25":{"hours":5,"start":"17:00","end":"22:00"},"2026-05-26":{"hours":5,"start":"14:00","end":"19:00"},"2026-05-27":{"hours":5,"start":"13:00","end":"18:00"},"2026-05-28":{"hours":6,"start":"12:00","end":"18:00"}}},"Ajiullah Fahim":{"type":"FTE","dates":{}},"Dewan Babri Bristy":{"type":"FTE","dates":{"2026-05-25":{"hours":3,"start":"16:00","end":"19:00"},"2026-05-26":{"hours":4,"start":"07:00","end":"11:00"},"2026-05-27":{"hours":3,"start":"08:00","end":"11:00"},"2026-05-28":{"hours":4,"start":"07:00","end":"11:00"},"2026-05-29":{"hours":3,"start":"07:00","end":"10:00"}}},"Md. Naimur Rahman":{"type":"FTE","dates":{"2026-05-25":{"hours":4,"start":"10:00","end":"14:00"},"2026-05-26":{"hours":5,"start":"07:00","end":"12:00"},"2026-05-27":{"hours":3,"start":"16:00","end":"19:00"},"2026-05-28":{"hours":4,"start":"16:00","end":"20:00"}}},"Md. Rupok Hossain Rudro":{"type":"FTE","dates":{"2026-05-25":{"hours":3,"start":"15:00","end":"18:00"},"2026-05-26":{"hours":3,"start":"15:00","end":"18:00"},"2026-05-27":{"hours":4,"start":"09:00","end":"13:00"},"2026-05-31":{"hours":5,"start":"11:00","end":"16:00"}}},"TARIQUL ISLAM":{"type":"FTE","dates":{"2026-05-25":{"hours":8,"start":"23:00","end":"07:00"},"2026-05-26":{"hours":8,"start":"23:00","end":"07:00"},"2026-05-27":{"hours":10,"start":"15:00","end":"07:00"},"2026-05-28":{"hours":7,"start":"16:00","end":"07:00"},"2026-05-29":{"hours":6,"start":"01:00","end":"07:00"},"2026-05-30":{"hours":4,"start":"03:00","end":"07:00"},"2026-05-31":{"hours":6,"start":"01:00","end":"07:00"}}},"Rahat Rafsan":{"type":"FTE","dates":{"2026-05-26":{"hours":4,"start":"23:00","end":"03:00"},"2026-05-27":{"hours":5,"start":"23:00","end":"04:00"},"2026-05-28":{"hours":3,"start":"22:00","end":"01:00"},"2026-05-29":{"hours":8,"start":"23:00","end":"07:00"},"2026-05-30":{"hours":4,"start":"02:00","end":"06:00"}}},"MD OBAIDUR RAHMAN DIP":{"type":"FTE","dates":{"2026-05-26":{"hours":4,"start":"23:00","end":"03:00"},"2026-05-27":{"hours":3,"start":"23:00","end":"02:00"},"2026-05-28":{"hours":3,"start":"23:00","end":"02:00"},"2026-05-29":{"hours":3,"start":"23:00","end":"02:00"}}},"Samy Shams Sajid":{"type":"FTE","dates":{"2026-05-25":{"hours":4,"start":"22:00","end":"02:00"},"2026-05-26":{"hours":5,"start":"21:00","end":"02:00"},"2026-05-29":{"hours":4,"start":"22:00","end":"02:00"},"2026-05-30":{"hours":3,"start":"23:00","end":"02:00"}}},"Md. Rafi Hasan":{"type":"FTE","dates":{"2026-05-25":{"hours":5,"start":"21:00","end":"02:00"},"2026-05-26":{"hours":8,"start":"23:00","end":"07:00"},"2026-05-27":{"hours":5,"start":"23:00","end":"04:00"},"2026-05-28":{"hours":5,"start":"23:00","end":"04:00"},"2026-05-29":{"hours":7,"start":"23:00","end":"06:00"},"2026-05-30":{"hours":3,"start":"01:00","end":"04:00"},"2026-05-31":{"hours":3,"start":"00:00","end":"03:00"}}},"Raiyan Intesar Anabil Talukder":{"type":"FTE","dates":{"2026-05-25":{"hours":9,"start":"22:00","end":"07:00"},"2026-05-26":{"hours":10,"start":"21:00","end":"07:00"},"2026-05-27":{"hours":10,"start":"19:00","end":"05:00"},"2026-05-28":{"hours":10,"start":"21:00","end":"07:00"},"2026-05-29":{"hours":8,"start":"23:00","end":"07:00"},"2026-05-30":{"hours":4,"start":"03:00","end":"07:00"},"2026-05-31":{"hours":3,"start":"04:00","end":"07:00"}}},"Chowdhury Zayed Hyder":{"type":"FTE","dates":{"2026-05-25":{"hours":9,"start":"22:00","end":"07:00"},"2026-05-26":{"hours":9,"start":"22:00","end":"07:00"},"2026-05-27":{"hours":10,"start":"20:00","end":"06:00"},"2026-05-28":{"hours":10,"start":"21:00","end":"07:00"},"2026-05-29":{"hours":8,"start":"23:00","end":"07:00"},"2026-05-30":{"hours":3,"start":"21:00","end":"00:00"}}},"Abdullah Al Jubair":{"type":"FTE","dates":{"2026-05-25":{"hours":3,"start":"01:00","end":"04:00"},"2026-05-26":{"hours":4,"start":"03:00","end":"07:00"},"2026-05-31":{"hours":4,"start":"03:00","end":"07:00"}}},"Rafi Bin Zahid":{"type":"FTE","dates":{"2026-05-25":{"hours":4,"start":"03:00","end":"07:00"},"2026-05-26":{"hours":4,"start":"03:00","end":"07:00"},"2026-05-27":{"hours":7,"start":"00:00","end":"07:00"},"2026-05-28":{"hours":5,"start":"02:00","end":"07:00"},"2026-05-29":{"hours":8,"start":"23:00","end":"07:00"},"2026-05-30":{"hours":4,"start":"03:00","end":"07:00"},"2026-05-31":{"hours":4,"start":"03:00","end":"07:00"}}},"Rabit Al Hassan":{"type":"FTE","dates":{"2026-05-25":{"hours":8,"start":"23:00","end":"07:00"},"2026-05-26":{"hours":4,"start":"20:00","end":"00:00"},"2026-05-28":{"hours":6,"start":"23:00","end":"05:00"},"2026-05-29":{"hours":3,"start":"21:00","end":"00:00"}}},"Ashraful Islam":{"type":"FTE","dates":{"2026-05-25":{"hours":4,"start":"23:00","end":"03:00"},"2026-05-26":{"hours":4,"start":"22:00","end":"02:00"},"2026-05-27":{"hours":5,"start":"21:00","end":"02:00"},"2026-05-28":{"hours":3,"start":"00:00","end":"03:00"},"2026-05-30":{"hours":4,"start":"23:00","end":"03:00"}}},"Seleena Leard":{"type":"FTE","dates":{"2026-05-26":{"hours":9,"start":"07:00","end":"16:00"},"2026-05-27":{"hours":9,"start":"07:00","end":"16:00"},"2026-05-28":{"hours":9,"start":"07:00","end":"16:00"},"2026-05-29":{"hours":9,"start":"07:00","end":"16:00"},"2026-05-30":{"hours":9,"start":"07:00","end":"16:00"}}},"Azmaan Farzan":{"type":"FTE","dates":{"2026-05-25":{"hours":9,"start":"07:00","end":"16:00"},"2026-05-26":{"hours":9,"start":"07:00","end":"16:00"},"2026-05-27":{"hours":9,"start":"07:00","end":"16:00"},"2026-05-28":{"hours":9,"start":"07:00","end":"16:00"},"2026-05-29":{"hours":9,"start":"07:00","end":"16:00"}}},"Darren Perera":{"type":"FTE","dates":{"2026-05-25":{"hours":9,"start":"14:00","end":"23:00"},"2026-05-26":{"hours":9,"start":"14:00","end":"23:00"},"2026-05-27":{"hours":9,"start":"14:00","end":"23:00"},"2026-05-28":{"hours":9,"start":"14:00","end":"23:00"},"2026-05-29":{"hours":9,"start":"14:00","end":"23:00"}}},"Abishek Sasikumar":{"type":"FTE","dates":{"2026-05-26":{"hours":9,"start":"14:00","end":"23:00"},"2026-05-27":{"hours":9,"start":"14:00","end":"23:00"},"2026-05-28":{"hours":9,"start":"14:00","end":"23:00"},"2026-05-29":{"hours":9,"start":"14:00","end":"23:00"},"2026-05-30":{"hours":9,"start":"14:00","end":"23:00"}}},"Zuhra Mahjabin Sristy":{"type":"FTE","dates":{"2026-05-25":{"hours":10,"start":"09:00","end":"19:00"},"2026-05-26":{"hours":7,"start":"07:00","end":"14:00"},"2026-05-27":{"hours":7,"start":"07:00","end":"14:00"},"2026-05-28":{"hours":10,"start":"07:00","end":"17:00"},"2026-05-29":{"hours":10,"start":"07:00","end":"17:00"},"2026-05-30":{"hours":5,"start":"09:00","end":"14:00"},"2026-05-31":{"hours":7,"start":"07:00","end":"14:00"}}},"Reyashad Ahamed Shanto":{"type":"FTE","dates":{"2026-05-25":{"hours":10,"start":"07:00","end":"17:00"},"2026-05-26":{"hours":7,"start":"07:00","end":"14:00"},"2026-05-27":{"hours":7,"start":"07:00","end":"14:00"},"2026-05-28":{"hours":10,"start":"08:00","end":"18:00"},"2026-05-29":{"hours":10,"start":"07:00","end":"17:00"},"2026-05-30":{"hours":6,"start":"07:00","end":"13:00"},"2026-05-31":{"hours":10,"start":"07:00","end":"17:00"}}},"Abidur Rahman":{"type":"FTE","dates":{"2026-05-25":{"hours":10,"start":"07:00","end":"17:00"},"2026-05-26":{"hours":10,"start":"07:00","end":"17:00"},"2026-05-27":{"hours":7,"start":"07:00","end":"14:00"},"2026-05-28":{"hours":10,"start":"07:00","end":"17:00"},"2026-05-29":{"hours":10,"start":"07:00","end":"17:00"},"2026-05-30":{"hours":6,"start":"07:00","end":"13:00"},"2026-05-31":{"hours":10,"start":"07:00","end":"17:00"}}},"Meshak Abedin":{"type":"FTE","dates":{"2026-05-25":{"hours":9,"start":"12:00","end":"21:00"},"2026-05-26":{"hours":7,"start":"12:00","end":"19:00"},"2026-05-27":{"hours":7,"start":"14:00","end":"21:00"},"2026-05-28":{"hours":5,"start":"16:00","end":"21:00"},"2026-05-29":{"hours":7,"start":"12:00","end":"19:00"},"2026-05-31":{"hours":7,"start":"14:00","end":"21:00"}}},"Prince Zakaria":{"type":"FTE","dates":{"2026-05-26":{"hours":8,"start":"13:00","end":"21:00"},"2026-05-27":{"hours":9,"start":"12:00","end":"21:00"},"2026-05-28":{"hours":8,"start":"11:00","end":"19:00"},"2026-05-29":{"hours":6,"start":"12:00","end":"18:00"},"2026-05-30":{"hours":7,"start":"13:00","end":"20:00"},"2026-05-31":{"hours":6,"start":"13:00","end":"19:00"}}},"Md.Tanjin ul Hoque":{"type":"FTE","dates":{"2026-05-25":{"hours":5,"start":"16:00","end":"21:00"},"2026-05-26":{"hours":7,"start":"12:00","end":"19:00"},"2026-05-27":{"hours":8,"start":"12:00","end":"20:00"},"2026-05-29":{"hours":8,"start":"17:00","end":"01:00"},"2026-05-30":{"hours":7,"start":"13:00","end":"20:00"}}},"Shadrib Hasan Anik":{"type":"FTE","dates":{"2026-05-25":{"hours":10,"start":"21:00","end":"07:00"},"2026-05-26":{"hours":10,"start":"19:00","end":"05:00"},"2026-05-27":{"hours":10,"start":"20:00","end":"06:00"},"2026-05-28":{"hours":10,"start":"19:00","end":"05:00"},"2026-05-29":{"hours":3,"start":"23:00","end":"02:00"},"2026-05-30":{"hours":5,"start":"20:00","end":"01:00"},"2026-05-31":{"hours":5,"start":"02:00","end":"07:00"}}},"Jerin Tasneem Prova":{"type":"FTE","dates":{"2026-05-25":{"hours":4,"start":"08:00","end":"12:00"},"2026-05-26":{"hours":4,"start":"08:00","end":"12:00"},"2026-05-27":{"hours":4,"start":"12:00","end":"16:00"},"2026-05-28":{"hours":4,"start":"17:00","end":"21:00"},"2026-05-29":{"hours":3,"start":"09:00","end":"12:00"},"2026-05-30":{"hours":4,"start":"08:00","end":"12:00"},"2026-05-31":{"hours":3,"start":"09:00","end":"12:00"}}},"Faiyaz Muhtasim Ahmed":{"type":"FTE","dates":{"2026-05-27":{"hours":5,"start":"07:00","end":"12:00"}}},"Md. M Z Mahiuddin Shameem":{"type":"FTE","dates":{"2026-05-25":{"hours":4,"start":"14:00","end":"18:00"},"2026-05-26":{"hours":5,"start":"13:00","end":"18:00"},"2026-05-27":{"hours":6,"start":"14:00","end":"20:00"},"2026-05-29":{"hours":4,"start":"16:00","end":"20:00"},"2026-05-30":{"hours":3,"start":"17:00","end":"20:00"},"2026-05-31":{"hours":4,"start":"17:00","end":"21:00"}}},"Md. Rakib Hossain":{"type":"FTE","dates":{"2026-05-25":{"hours":5,"start":"16:00","end":"21:00"},"2026-05-26":{"hours":6,"start":"17:00","end":"23:00"},"2026-05-27":{"hours":5,"start":"16:00","end":"21:00"},"2026-05-30":{"hours":5,"start":"12:00","end":"17:00"}}},"S.M. Sourov Sagor":{"type":"FTE","dates":{"2026-05-25":{"hours":9,"start":"07:00","end":"16:00"},"2026-05-26":{"hours":10,"start":"07:00","end":"17:00"},"2026-05-27":{"hours":7,"start":"07:00","end":"14:00"},"2026-05-28":{"hours":8,"start":"07:00","end":"15:00"},"2026-05-29":{"hours":9,"start":"07:00","end":"16:00"},"2026-05-30":{"hours":6,"start":"07:00","end":"13:00"},"2026-05-31":{"hours":6,"start":"07:00","end":"13:00"}}},"M M Abir Ahmed Mugdho":{"type":"FTE","dates":{"2026-05-25":{"hours":9,"start":"12:00","end":"21:00"},"2026-05-26":{"hours":9,"start":"12:00","end":"21:00"},"2026-05-27":{"hours":7,"start":"12:00","end":"23:00"},"2026-05-28":{"hours":6,"start":"11:00","end":"17:00"},"2026-05-29":{"hours":9,"start":"12:00","end":"21:00"},"2026-05-30":{"hours":5,"start":"20:00","end":"01:00"},"2026-05-31":{"hours":5,"start":"12:00","end":"17:00"}}},"M I Fahim Alam":{"type":"FTE","dates":{"2026-05-27":{"hours":4,"start":"17:00","end":"21:00"},"2026-05-28":{"hours":6,"start":"15:00","end":"21:00"},"2026-05-29":{"hours":9,"start":"12:00","end":"21:00"},"2026-05-30":{"hours":8,"start":"13:00","end":"21:00"},"2026-05-31":{"hours":10,"start":"13:00","end":"23:00"}}},"Sheikh Shahariar Shohag":{"type":"FTE","dates":{"2026-05-25":{"hours":5,"start":"18:00","end":"23:00"},"2026-05-26":{"hours":10,"start":"21:00","end":"07:00"},"2026-05-28":{"hours":10,"start":"21:00","end":"07:00"},"2026-05-29":{"hours":10,"start":"21:00","end":"07:00"}}},"MD Nayeem Hossain":{"type":"FTE","dates":{"2026-05-25":{"hours":10,"start":"21:00","end":"07:00"},"2026-05-27":{"hours":10,"start":"21:00","end":"07:00"},"2026-05-28":{"hours":10,"start":"21:00","end":"07:00"},"2026-05-30":{"hours":10,"start":"21:00","end":"07:00"},"2026-05-31":{"hours":10,"start":"21:00","end":"07:00"}}},"Rizny Azmy":{"type":"FTE","dates":{"2026-05-25":{"hours":9,"start":"14:00","end":"23:00"},"2026-05-26":{"hours":9,"start":"14:00","end":"23:00"},"2026-05-27":{"hours":9,"start":"14:00","end":"23:00"},"2026-05-28":{"hours":9,"start":"14:00","end":"23:00"},"2026-05-29":{"hours":9,"start":"14:00","end":"23:00"}}},"Sana Amin Kotwal":{"type":"FTE","dates":{"2026-05-25":{"hours":4,"start":"07:00","end":"11:00"},"2026-05-26":{"hours":5,"start":"14:00","end":"19:00"},"2026-05-27":{"hours":4,"start":"08:00","end":"12:00"},"2026-05-28":{"hours":8,"start":"07:00","end":"15:00"}}},"Asif Hasan Abir":{"type":"FTE","dates":{"2026-05-25":{"hours":4,"start":"07:00","end":"11:00"},"2026-05-26":{"hours":6,"start":"07:00","end":"13:00"},"2026-05-29":{"hours":6,"start":"07:00","end":"13:00"},"2026-05-30":{"hours":8,"start":"07:00","end":"15:00"}}},"Momen Hossain":{"type":"FTE","dates":{"2026-05-25":{"hours":10,"start":"07:00","end":"17:00"},"2026-05-26":{"hours":9,"start":"07:00","end":"16:00"},"2026-05-27":{"hours":10,"start":"07:00","end":"17:00"},"2026-05-28":{"hours":8,"start":"09:00","end":"17:00"},"2026-05-29":{"hours":10,"start":"07:00","end":"17:00"},"2026-05-30":{"hours":5,"start":"07:00","end":"12:00"},"2026-05-31":{"hours":8,"start":"07:00","end":"15:00"}}},"Galib Hasan Nizum":{"type":"FTE","dates":{"2026-05-25":{"hours":6,"start":"11:00","end":"17:00"},"2026-05-26":{"hours":8,"start":"07:00","end":"15:00"},"2026-05-27":{"hours":10,"start":"07:00","end":"17:00"},"2026-05-28":{"hours":10,"start":"07:00","end":"17:00"},"2026-05-29":{"hours":10,"start":"08:00","end":"18:00"},"2026-05-30":{"hours":5,"start":"07:00","end":"12:00"},"2026-05-31":{"hours":6,"start":"07:00","end":"13:00"}}},"Nadia Muslim":{"type":"FTE","dates":{"2026-05-25":{"hours":9,"start":"15:00","end":"00:00"},"2026-05-26":{"hours":10,"start":"07:00","end":"17:00"},"2026-05-27":{"hours":10,"start":"07:00","end":"17:00"},"2026-05-28":{"hours":10,"start":"07:00","end":"17:00"},"2026-05-29":{"hours":5,"start":"17:00","end":"22:00"},"2026-05-31":{"hours":10,"start":"07:00","end":"17:00"}}},"Nuhash Rose Dhrubo":{"type":"FTE","dates":{"2026-05-27":{"hours":5,"start":"11:00","end":"16:00"},"2026-05-28":{"hours":8,"start":"11:00","end":"19:00"},"2026-05-29":{"hours":4,"start":"12:00","end":"16:00"},"2026-05-30":{"hours":5,"start":"11:00","end":"16:00"}}},"Sadman Islam Hridoy":{"type":"FTE","dates":{"2026-05-25":{"hours":9,"start":"11:00","end":"20:00"},"2026-05-26":{"hours":10,"start":"11:00","end":"21:00"},"2026-05-27":{"hours":8,"start":"12:00","end":"20:00"},"2026-05-30":{"hours":2,"start":"12:00","end":"14:00"},"2026-05-31":{"hours":4,"start":"13:00","end":"17:00"}}},"Sadman Sakib Ayon":{"type":"FTE","dates":{"2026-05-25":{"hours":10,"start":"12:00","end":"22:00"},"2026-05-26":{"hours":9,"start":"13:00","end":"22:00"},"2026-05-27":{"hours":6,"start":"16:00","end":"22:00"},"2026-05-30":{"hours":9,"start":"13:00","end":"22:00"},"2026-05-31":{"hours":9,"start":"13:00","end":"22:00"}}},"Manish Sarkar":{"type":"FTE","dates":{"2026-05-25":{"hours":6,"start":"09:00","end":"15:00"},"2026-05-26":{"hours":6,"start":"09:00","end":"15:00"},"2026-05-27":{"hours":6,"start":"09:00","end":"15:00"},"2026-05-28":{"hours":6,"start":"09:00","end":"15:00"},"2026-05-29":{"hours":6,"start":"09:00","end":"15:00"},"2026-05-30":{"hours":6,"start":"09:00","end":"15:00"},"2026-05-31":{"hours":6,"start":"09:00","end":"15:00"}}},"Nasrin Hossain Preya":{"type":"FTE","dates":{"2026-05-25":{"hours":6,"start":"15:00","end":"21:00"},"2026-05-26":{"hours":6,"start":"15:00","end":"21:00"},"2026-05-27":{"hours":6,"start":"15:00","end":"21:00"},"2026-05-28":{"hours":6,"start":"15:00","end":"21:00"},"2026-05-29":{"hours":6,"start":"15:00","end":"21:00"},"2026-05-30":{"hours":6,"start":"15:00","end":"21:00"},"2026-05-31":{"hours":6,"start":"15:00","end":"21:00"}}},"Md. Faisal Niyam":{"type":"FTE","dates":{"2026-05-25":{"hours":5,"start":"10:00","end":"15:00"},"2026-05-26":{"hours":5,"start":"10:00","end":"15:00"},"2026-05-27":{"hours":5,"start":"10:00","end":"15:00"},"2026-05-28":{"hours":5,"start":"10:00","end":"15:00"},"2026-05-30":{"hours":5,"start":"10:00","end":"15:00"},"2026-05-31":{"hours":5,"start":"19:00","end":"00:00"}}},"Ashika Rahman":{"type":"VE","dates":{"2026-05-25":{"hours":7,"start":"22:00","end":"05:00"},"2026-05-26":{"hours":4,"start":"22:00","end":"02:00"},"2026-05-27":{"hours":9,"start":"22:00","end":"07:00"},"2026-05-28":{"hours":8,"start":"21:00","end":"05:00"},"2026-05-29":{"hours":8,"start":"18:00","end":"02:00"},"2026-05-30":{"hours":4,"start":"22:00","end":"02:00"},"2026-05-31":{"hours":7,"start":"22:00","end":"05:00"}}},"Elias Arman Bappi":{"type":"VE","dates":{"2026-05-25":{"hours":10,"start":"07:00","end":"17:00"},"2026-05-26":{"hours":5,"start":"07:00","end":"12:00"},"2026-05-27":{"hours":7,"start":"07:00","end":"14:00"},"2026-05-28":{"hours":10,"start":"07:00","end":"17:00"},"2026-05-29":{"hours":10,"start":"16:00","end":"02:00"},"2026-05-30":{"hours":3,"start":"04:00","end":"07:00"},"2026-05-31":{"hours":4,"start":"16:00","end":"20:00"}}},"Mainuzzaman Tarek":{"type":"VE","dates":{"2026-05-25":{"hours":7,"start":"00:00","end":"07:00"},"2026-05-26":{"hours":10,"start":"21:00","end":"07:00"},"2026-05-27":{"hours":10,"start":"21:00","end":"07:00"},"2026-05-28":{"hours":6,"start":"01:00","end":"07:00"},"2026-05-29":{"hours":8,"start":"23:00","end":"07:00"},"2026-05-30":{"hours":7,"start":"17:00","end":"00:00"},"2026-05-31":{"hours":7,"start":"00:00","end":"07:00"}}},"Nushrat Hasan":{"type":"VE","dates":{"2026-05-25":{"hours":4,"start":"21:00","end":"01:00"},"2026-05-26":{"hours":6,"start":"16:00","end":"22:00"},"2026-05-27":{"hours":6,"start":"18:00","end":"00:00"},"2026-05-28":{"hours":10,"start":"07:00","end":"17:00"},"2026-05-29":{"hours":7,"start":"18:00","end":"01:00"},"2026-05-30":{"hours":4,"start":"20:00","end":"00:00"},"2026-05-31":{"hours":5,"start":"19:00","end":"00:00"}}},"Nusrat Jahan Bidhe":{"type":"VE","dates":{"2026-05-25":{"hours":6,"start":"18:00","end":"00:00"},"2026-05-26":{"hours":4,"start":"18:00","end":"22:00"},"2026-05-27":{"hours":6,"start":"18:00","end":"00:00"},"2026-05-28":{"hours":10,"start":"07:00","end":"17:00"},"2026-05-29":{"hours":9,"start":"12:00","end":"21:00"},"2026-05-30":{"hours":5,"start":"17:00","end":"22:00"},"2026-05-31":{"hours":6,"start":"18:00","end":"00:00"}}},"Riad Hasan Munsi":{"type":"VE","dates":{"2026-05-25":{"hours":3,"start":"23:00","end":"02:00"},"2026-05-26":{"hours":5,"start":"23:00","end":"04:00"},"2026-05-27":{"hours":6,"start":"20:00","end":"02:00"},"2026-05-28":{"hours":5,"start":"22:00","end":"03:00"},"2026-05-29":{"hours":9,"start":"20:00","end":"05:00"},"2026-05-30":{"hours":4,"start":"21:00","end":"01:00"},"2026-05-31":{"hours":7,"start":"18:00","end":"01:00"}}},"Shazid Hossain":{"type":"VE","dates":{"2026-05-26":{"hours":6,"start":"23:00","end":"05:00"},"2026-05-27":{"hours":7,"start":"23:00","end":"06:00"},"2026-05-28":{"hours":8,"start":"23:00","end":"07:00"},"2026-05-30":{"hours":3,"start":"00:00","end":"03:00"},"2026-05-31":{"hours":4,"start":"00:00","end":"04:00"}}},"Umme Salma Jui":{"type":"VE","dates":{"2026-05-25":{"hours":9,"start":"07:00","end":"16:00"},"2026-05-26":{"hours":3,"start":"23:00","end":"02:00"},"2026-05-27":{"hours":5,"start":"21:00","end":"02:00"},"2026-05-28":{"hours":6,"start":"20:00","end":"02:00"},"2026-05-30":{"hours":6,"start":"21:00","end":"03:00"},"2026-05-31":{"hours":7,"start":"20:00","end":"03:00"}}},"MD Khalid Hasan":{"type":"VE","dates":{}},"Rifa Shadia Islam Prova":{"type":"VE","dates":{"2026-05-25":{"hours":7,"start":"19:00","end":"02:00"},"2026-05-26":{"hours":6,"start":"19:00","end":"01:00"},"2026-05-27":{"hours":11,"start":"17:00","end":"04:00"},"2026-05-28":{"hours":9,"start":"18:00","end":"03:00"},"2026-05-29":{"hours":7,"start":"19:00","end":"02:00"},"2026-05-30":{"hours":7,"start":"19:00","end":"02:00"},"2026-05-31":{"hours":10,"start":"19:00","end":"05:00"}}},"Samiul Sakib Rafin":{"type":"VE","dates":{"2026-05-25":{"hours":7,"start":"07:00","end":"14:00"},"2026-05-29":{"hours":5,"start":"02:00","end":"07:00"},"2026-05-30":{"hours":5,"start":"02:00","end":"07:00"},"2026-05-31":{"hours":6,"start":"01:00","end":"07:00"}}},"Al-Zawad Islam Shadman":{"type":"VE","dates":{"2026-05-25":{"hours":10,"start":"07:00","end":"17:00"},"2026-05-26":{"hours":8,"start":"23:00","end":"07:00"},"2026-05-27":{"hours":9,"start":"22:00","end":"07:00"},"2026-05-28":{"hours":7,"start":"00:00","end":"07:00"},"2026-05-29":{"hours":7,"start":"00:00","end":"07:00"},"2026-05-30":{"hours":7,"start":"00:00","end":"07:00"},"2026-05-31":{"hours":7,"start":"00:00","end":"07:00"}}},"Rajeen Morshed Fida":{"type":"VE","dates":{"2026-05-29":{"hours":5,"start":"02:00","end":"07:00"},"2026-05-30":{"hours":5,"start":"02:00","end":"07:00"}}},"Afifa Islam Fiha":{"type":"VE","dates":{"2026-05-25":{"hours":10,"start":"17:00","end":"03:00"},"2026-05-26":{"hours":10,"start":"17:00","end":"03:00"},"2026-05-27":{"hours":10,"start":"21:00","end":"07:00"},"2026-05-28":{"hours":10,"start":"17:00","end":"03:00"},"2026-05-29":{"hours":10,"start":"18:00","end":"04:00"},"2026-05-30":{"hours":8,"start":"23:00","end":"07:00"},"2026-05-31":{"hours":10,"start":"17:00","end":"03:00"}}},"Md. Sadman":{"type":"VE","dates":{"2026-05-25":{"hours":9,"start":"17:00","end":"02:00"},"2026-05-26":{"hours":9,"start":"22:00","end":"07:00"},"2026-05-28":{"hours":5,"start":"19:00","end":"00:00"},"2026-05-29":{"hours":6,"start":"18:00","end":"00:00"},"2026-05-30":{"hours":6,"start":"18:00","end":"00:00"},"2026-05-31":{"hours":6,"start":"18:00","end":"00:00"}}},"Md Farhan Taher Oishik":{"type":"VE","dates":{"2026-05-25":{"hours":10,"start":"21:00","end":"07:00"},"2026-05-26":{"hours":10,"start":"21:00","end":"07:00"},"2026-05-27":{"hours":10,"start":"21:00","end":"07:00"},"2026-05-28":{"hours":10,"start":"21:00","end":"07:00"},"2026-05-29":{"hours":10,"start":"21:00","end":"07:00"},"2026-05-30":{"hours":10,"start":"20:00","end":"06:00"},"2026-05-31":{"hours":10,"start":"21:00","end":"07:00"}}},"Sheikh Sajid Hasnain":{"type":"VE","dates":{"2026-05-25":{"hours":6,"start":"12:00","end":"18:00"},"2026-05-26":{"hours":4,"start":"03:00","end":"07:00"},"2026-05-27":{"hours":3,"start":"04:00","end":"07:00"},"2026-05-28":{"hours":3,"start":"04:00","end":"07:00"},"2026-05-29":{"hours":3,"start":"04:00","end":"07:00"},"2026-05-30":{"hours":4,"start":"13:00","end":"17:00"},"2026-05-31":{"hours":7,"start":"13:00","end":"20:00"}}},"Tazwar Fardous":{"type":"VE","dates":{"2026-05-25":{"hours":6,"start":"21:00","end":"03:00"},"2026-05-26":{"hours":6,"start":"21:00","end":"03:00"},"2026-05-27":{"hours":5,"start":"00:00","end":"05:00"},"2026-05-28":{"hours":8,"start":"23:00","end":"07:00"},"2026-05-29":{"hours":4,"start":"21:00","end":"01:00"},"2026-05-30":{"hours":7,"start":"16:00","end":"23:00"},"2026-05-31":{"hours":6,"start":"22:00","end":"04:00"}}},"Kamrul Hasan Sakib":{"type":"VE","dates":{"2026-05-25":{"hours":7,"start":"21:00","end":"04:00"},"2026-05-26":{"hours":4,"start":"03:00","end":"07:00"},"2026-05-27":{"hours":7,"start":"21:00","end":"04:00"},"2026-05-28":{"hours":8,"start":"23:00","end":"07:00"},"2026-05-29":{"hours":8,"start":"23:00","end":"07:00"},"2026-05-30":{"hours":9,"start":"21:00","end":"06:00"},"2026-05-31":{"hours":10,"start":"21:00","end":"07:00"}}},"Mehedi Hasan Sany":{"type":"VE","dates":{"2026-05-25":{"hours":8,"start":"22:00","end":"06:00"},"2026-05-26":{"hours":7,"start":"22:00","end":"05:00"},"2026-05-27":{"hours":9,"start":"22:00","end":"07:00"},"2026-05-28":{"hours":10,"start":"21:00","end":"07:00"},"2026-05-29":{"hours":6,"start":"22:00","end":"04:00"},"2026-05-30":{"hours":3,"start":"22:00","end":"01:00"},"2026-05-31":{"hours":9,"start":"22:00","end":"07:00"}}},"Zawad Zarir Pasha":{"type":"VE","dates":{"2026-05-25":{"hours":4,"start":"20:00","end":"00:00"},"2026-05-26":{"hours":5,"start":"19:00","end":"00:00"},"2026-05-29":{"hours":4,"start":"01:00","end":"05:00"},"2026-05-30":{"hours":7,"start":"00:00","end":"07:00"},"2026-05-31":{"hours":5,"start":"02:00","end":"07:00"}}},"Prottoy Saha":{"type":"VE","dates":{"2026-05-25":{"hours":9,"start":"16:00","end":"01:00"},"2026-05-26":{"hours":8,"start":"16:00","end":"00:00"},"2026-05-27":{"hours":7,"start":"16:00","end":"23:00"},"2026-05-28":{"hours":10,"start":"07:00","end":"17:00"},"2026-05-29":{"hours":7,"start":"16:00","end":"23:00"},"2026-05-30":{"hours":7,"start":"14:00","end":"21:00"},"2026-05-31":{"hours":6,"start":"17:00","end":"23:00"}}},"Lamira Ajrin":{"type":"VE","dates":{"2026-05-25":{"hours":6,"start":"18:00","end":"00:00"},"2026-05-26":{"hours":10,"start":"21:00","end":"07:00"},"2026-05-27":{"hours":10,"start":"20:00","end":"06:00"},"2026-05-28":{"hours":8,"start":"17:00","end":"01:00"},"2026-05-29":{"hours":4,"start":"03:00","end":"07:00"},"2026-05-30":{"hours":8,"start":"16:00","end":"00:00"},"2026-05-31":{"hours":7,"start":"17:00","end":"00:00"}}},"Maymona Ameen Kotwal Sidrah":{"type":"VE","dates":{"2026-05-25":{"hours":8,"start":"23:00","end":"07:00"},"2026-05-26":{"hours":4,"start":"23:00","end":"03:00"},"2026-05-27":{"hours":8,"start":"20:00","end":"04:00"},"2026-05-28":{"hours":8,"start":"17:00","end":"01:00"},"2026-05-29":{"hours":6,"start":"18:00","end":"00:00"},"2026-05-30":{"hours":7,"start":"00:00","end":"07:00"},"2026-05-31":{"hours":9,"start":"17:00","end":"02:00"}}},"Nasif Ul Islam":{"type":"VE PSTF","dates":{"2026-05-25":{"hours":10,"start":"21:00","end":"07:00"},"2026-05-26":{"hours":8,"start":"23:00","end":"07:00"},"2026-05-27":{"hours":8,"start":"23:00","end":"07:00"},"2026-05-29":{"hours":10,"start":"21:00","end":"07:00"},"2026-05-30":{"hours":6,"start":"01:00","end":"07:00"},"2026-05-31":{"hours":8,"start":"23:00","end":"07:00"}}}};
+
+let selectedType = null;
+let lastRows = [];
+let lastName = '', lastSalary = 0, lastGrand = 0;
+
+function selectType(type, btn) {
+  selectedType = type;
+  document.querySelectorAll('.type-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  const sel = document.getElementById('agentSelect');
+  sel.innerHTML = '<option value="">— Select your name —</option>';
+  Object.keys(AGENTS).filter(n => AGENTS[n].type === type).sort()
+    .forEach(name => { const o = document.createElement('option'); o.value = name; o.textContent = name; sel.appendChild(o); });
+  checkReady();
+}
+
+function onSalaryChange() {
+  const salary = parseFloat(document.getElementById('salaryInput').value);
+  const hint = document.getElementById('salaryHint');
+  if (!selectedType || !salary || salary <= 0) { hint.classList.remove('show'); return; }
+  const std = STD_HOURS[selectedType];
+  const hr = salary / std;
+  hint.innerHTML = `Hourly Rate = ৳${salary.toLocaleString()} ÷ ${std} std hrs = <strong>৳${hr.toFixed(2)}/hr</strong>`;
+  hint.classList.add('show');
+  checkReady();
+}
+
+function checkReady() {
+  const name = document.getElementById('agentSelect').value;
+  const salary = parseFloat(document.getElementById('salaryInput').value);
+  document.getElementById('calcBtn').disabled = !(selectedType && name && salary > 0);
+}
+
+function fmt(n) { return '৳' + n.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ','); }
+
+function isOvernight(start, end) {
+  const s = parseInt(start.replace(':',''));
+  const e = parseInt(end.replace(':',''));
+  return e <= s;
+}
+
+function fmtTime(t) {
+  const [h, m] = t.split(':').map(Number);
+  const ampm = h < 12 ? 'AM' : 'PM';
+  const h12 = h === 0 ? 12 : h > 12 ? h - 12 : h;
+  return `${h12}:${m.toString().padStart(2,'0')} ${ampm}`;
+}
+
+// Google Calendar URL builder
+function gcalUrl(name, date, start, end, isEid, hours, pay) {
+  const [y, mo, d] = date.split('-').map(Number);
+  const [sh, sm] = start.split(':').map(Number);
+  const overnight = isOvernight(start, end);
+
+  const startDt = new Date(y, mo-1, d, sh, sm);
+  // end is next day if overnight
+  let endDate = new Date(startDt);
+  if (overnight) endDate.setDate(endDate.getDate() + 1);
+  const [eh, em] = end.split(':').map(Number);
+  endDate.setHours(eh, em, 0, 0);
+
+  const pad = n => n.toString().padStart(2,'0');
+  const fmt24 = dt => `${dt.getFullYear()}${pad(dt.getMonth()+1)}${pad(dt.getDate())}T${pad(dt.getHours())}${pad(dt.getMinutes())}00`;
+
+  const type = isEid ? 'Eid Day OT (4×)' : 'Govt Holiday OT (2.5×)';
+  const title = encodeURIComponent(`🌙 ${name} – ${type}`);
+  const details = encodeURIComponent(`Shift: ${fmtTime(start)} – ${fmtTime(end)}${overnight?' (+1)':''}\nHours: ${hours}h\nOT Pay: ${fmt(pay)}\nMultiplier: ${isEid?'4×':'2.5×'}`);
+  const loc = encodeURIComponent('CEX Operations');
+
+  return `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${title}&dates=${fmt24(startDt)}/${fmt24(endDate)}&details=${details}&location=${loc}`;
+}
+
+function calculate() {
+  const name = document.getElementById('agentSelect').value;
+  const salary = parseFloat(document.getElementById('salaryInput').value);
+  if (!name || !salary) return;
+
+  const agent = AGENTS[name];
+  const std = STD_HOURS[agent.type];
+  const hourlyRate = salary / std;
+
+  let eidTotal=0, govtTotal=0, eidHrs=0, govtHrs=0;
+  const rows = [];
+
+  ALL_DATES.forEach(date => {
+    const info = agent.dates[date];
+    if (!info || info.hours === 0) return;
+    const isEid = EID_DATES.includes(date);
+    const multiplier = isEid ? 4 : 2.5;
+    const pay = hourlyRate * info.hours * multiplier;
+    const overnight = isOvernight(info.start, info.end);
+    if (isEid) { eidTotal += pay; eidHrs += info.hours; }
+    else { govtTotal += pay; govtHrs += info.hours; }
+    rows.push({ date, hours: info.hours, start: info.start, end: info.end, multiplier, pay, isEid, overnight });
+  });
+
+  lastRows = rows; lastName = name; lastSalary = salary; lastGrand = eidTotal + govtTotal;
+  const grand = lastGrand;
+
+  document.getElementById('resName').textContent = name;
+  document.getElementById('resMeta').textContent =
+    agent.type + (agent.type==='FTE'?' · Full-Time Executive':agent.type==='VE'?' · Virtual Executive':' · VE PSTF') +
+    ' · Basic Salary: ' + fmt(salary);
+  document.getElementById('rateInfo').innerHTML =
+    `<strong>Hourly Rate:</strong> ${fmt(salary)} ÷ ${std} std hrs = <strong>${fmt(hourlyRate)}/hr</strong>`;
+
+  document.getElementById('resEidTotal').textContent = fmt(eidTotal);
+  document.getElementById('resEidHours').textContent = `${eidHrs} hrs × 4× multiplier`;
+  document.getElementById('resGovtTotal').textContent = fmt(govtTotal);
+  document.getElementById('resGovtHours').textContent = `${govtHrs} hrs × 2.5× multiplier`;
+  document.getElementById('resGrandTotal').textContent = fmt(grand);
+  document.getElementById('resTotalHours').textContent = `${eidHrs + govtHrs} total hours worked`;
+  document.getElementById('totalVal').textContent = fmt(grand);
+
+  // Build day cards
+  const container = document.getElementById('dayCards');
+  if (rows.length === 0) {
+    container.innerHTML = '<div style="text-align:center;padding:30px;color:var(--muted);background:#FAF5E8;border-radius:10px;font-size:15px;">No scheduled shifts found for this agent during the Eid period.</div>';
+  } else {
+    container.innerHTML = rows.map(r => {
+      const eidClass = r.isEid ? 'eid-day' : 'govt-day';
+      const badgeClass = r.isEid ? 'eid' : 'govt';
+      const badgeText = r.isEid ? '🌙 Eid Day · 4×' : '🏛 Govt Holiday · 2.5×';
+      const timePillClass = r.overnight ? 'overnight' : '';
+      const overnightNote = r.overnight ? ' <span style="font-size:11px;color:#888">(+1 day)</span>' : '';
+      const cal = gcalUrl(name, r.date, r.start, r.end, r.isEid, r.hours, r.pay);
+      return `
+        <div class="day-card">
+          <div class="day-card-header ${eidClass}">
+            <div class="day-left">
+              <div class="day-date-label">${DATE_LABELS[r.date]}</div>
+              <span class="day-badge ${badgeClass}">${badgeText}</span>
+            </div>
+            <div class="day-right">
+              <div class="day-pay">${fmt(r.pay)}</div>
+              <a class="gcal-btn" href="${cal}" target="_blank" rel="noopener">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="white"><path d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V10h14v10zm0-12H5V6h14v2z"/></svg>
+                Add to Calendar
+              </a>
+            </div>
+          </div>
+          <div class="day-details">
+            <div class="detail-item">
+              <span class="time-pill ${timePillClass}">🕐 ${fmtTime(r.start)} – ${fmtTime(r.end)}${overnightNote}</span>
+            </div>
+            <div class="detail-item"><strong>${r.hours}</strong> hours worked</div>
+            <div class="detail-item">Rate: <strong>${fmt(salary/STD_HOURS[agent.type])}/hr</strong></div>
+            <div class="detail-item">Formula: <strong>${r.hours}h × ${r.multiplier}× = ${fmt(r.pay)}</strong></div>
+          </div>
+        </div>`;
+    }).join('');
+  }
+
+  const results = document.getElementById('results');
+  results.classList.add('show');
+  results.scrollIntoView({ behavior:'smooth', block:'start' });
+
+  // Reset copy button
+  const cb = document.getElementById('copyBtn');
+  cb.classList.remove('copied');
+  cb.innerHTML = '📋 Copy Pay Summary to Clipboard';
+}
+
+function addAllToCalendar() {
+  if (!lastRows.length) return;
+  // Open each link with a small delay so browser doesn't block them all
+  lastRows.forEach((r, i) => {
+    setTimeout(() => {
+      const url = gcalUrl(lastName, r.date, r.start, r.end, r.isEid, r.hours, r.pay);
+      window.open(url, '_blank');
+    }, i * 400);
+  });
+}
+
+function copySummary() {
+  if (!lastName) return;
+  const agent = AGENTS[lastName];
+  const std = STD_HOURS[agent.type];
+  const hr = lastSalary / std;
+  let text = `Eid ul Adha OT Summary — ${lastName}\n`;
+  text += `Type: ${agent.type} | Salary: ৳${lastSalary.toLocaleString()} | Rate: ৳${hr.toFixed(2)}/hr\n`;
+  text += `${'─'.repeat(50)}\n`;
+  lastRows.forEach(r => {
+    text += `${DATE_LABELS[r.date]}  ${fmtTime(r.start)}–${fmtTime(r.end)}${r.overnight?' (+1)':''}  ${r.hours}h × ${r.multiplier}×  =  ${fmt(r.pay)}\n`;
+  });
+  text += `${'─'.repeat(50)}\n`;
+  text += `TOTAL OT PAY: ${fmt(lastGrand)}\n`;
+  navigator.clipboard.writeText(text).then(() => {
+    const cb = document.getElementById('copyBtn');
+    cb.classList.add('copied');
+    cb.innerHTML = '✅ Copied to Clipboard!';
+    setTimeout(() => { cb.classList.remove('copied'); cb.innerHTML = '📋 Copy Pay Summary to Clipboard'; }, 3000);
+  });
+}
+</script>
+</body>
+</html>
